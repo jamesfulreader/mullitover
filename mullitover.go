@@ -12,20 +12,20 @@ func PatternMatch(input string) [][]string {
 	return idxOfMultipliers
 }
 
-func ExtractNumbers(multiplierIndexes [][]string) int {
+func ExtractNumbers(multiplierIndexes [][]string) (int, error) {
 	total := 0
-	for _, numbers := range multiplierIndexes {
+	for i, numbers := range multiplierIndexes {
 		num1, err := strconv.Atoi(numbers[1])
 		if err != nil {
-			fmt.Println("err ", err)
+			return 0, fmt.Errorf("error parsing first number in pair %d: %w", i, err)
 		}
 
 		num2, err := strconv.Atoi(numbers[2])
 		if err != nil {
-			fmt.Println("err ", err)
+			return 0, fmt.Errorf("error parsing first number in pair %d: %w", i, err)
 		}
 
 		total += (num1 * num2)
 	}
-	return total
+	return total, nil
 }

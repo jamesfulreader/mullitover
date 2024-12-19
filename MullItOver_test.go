@@ -26,6 +26,10 @@ func TestPatternMatch(t *testing.T) {
 			"mul(1,2)mul(3,4)",
 			[][]string{{"mul(1,2)", "1", "2"}, {"mul(3,4)", "3", "4"}},
 		},
+		{
+			"mul[12,34]",
+			[][]string(nil),
+		},
 	}
 
 	for i, tc := range testCases {
@@ -55,14 +59,21 @@ func TestExtractNumbers(t *testing.T) {
 		},
 		{
 			[][]string{{"mul(1,2)", "1", "2"}, {"mul(3,4)", "3", "4"}},
-			24,
+			14,
+		},
+		{
+			[][]string(nil),
+			0,
 		},
 	}
 
 	for i, tc := range testCases {
-		result := ExtractNumbers(tc.input)
+		result, err := ExtractNumbers(tc.input)
 		if !reflect.DeepEqual(result, tc.expected) {
 			t.Errorf("Test case %d: Expected %v but got %v", i, tc.expected, result)
+		}
+		if err != nil {
+			t.Errorf("error extracting numbers %s", err)
 		}
 	}
 }
