@@ -7,8 +7,12 @@ import (
 )
 
 func PatternMatch(input string) [][]string {
-	r, _ := regexp.Compile(`mul\(([0-9]{1,3}),([0-9]{1,3})\)`)
-	idxOfMultipliers := r.FindAllStringSubmatch(input, -1)
+	// disable, _ := regexp.Compile(`don't()`)
+	// idxOfDisables := disable.FindAllStringSubmatch(input, -1)
+	// enable, _ := regexp.Compile(`do()`)
+	// idxOfEnables := enable.FindAllStringSubmatch(input, -1)
+	mul, _ := regexp.Compile(`mul\(([0-9]{1,3}),([0-9]{1,3})\)`)
+	idxOfMultipliers := mul.FindAllStringSubmatch(input, -1)
 	return idxOfMultipliers
 }
 
