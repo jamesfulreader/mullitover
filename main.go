@@ -1,35 +1,25 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/jamesfulreader/mullitover"
+	"github.com/jamesfulreader/solver"
+	"github.com/jamesfulreader/utils"
 )
 
 func main() {
 	fmt.Println("Mull it Over")
 
-	input, err := os.Open("./input.txt")
+	inputFilePath := "./input.txt"
+
+	fullCorruptMem, err := utils.ReadLines(inputFilePath)
 	if err != nil {
-		log.Fatalf("error opening input.txt: %v", err)
-		return
+		fmt.Fprintf(os.Stderr, "Error reading file:%v\n", err)
+		os.Exit(1)
 	}
-	defer input.Close()
 
-	scanner := bufio.NewScanner(input)
-	finalTotal := 0
-	for scanner.Scan() {
-		corruptedMemoryString := scanner.Text()
+	answer := solver.Solver(fullCorruptMem)
 
-		getMultipliers := mullitover.PatternMatch(corruptedMemoryString)
-		extractMultiply, err := mullitover.ExtractNumbers(getMultipliers)
-		if err != nil {
-			fmt.Println("err ", err)
-		}
-		finalTotal += extractMultiply
-	}
-	fmt.Println("total is ", finalTotal)
+	fmt.Println("answer ", answer)
 }
